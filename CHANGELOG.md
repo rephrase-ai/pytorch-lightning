@@ -29,9 +29,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
    * refactored dataloader process hook ([#3139](https://github.com/PyTorchLightning/pytorch-lightning/pull/3139))
    * refactored inner eval loop ([#3141](https://github.com/PyTorchLightning/pytorch-lightning/pull/3141))
    * final inner eval loop hooks ([#3154](https://github.com/PyTorchLightning/pytorch-lightning/pull/3154))
-   * clean up hooks in run_evaluation ([#3156](https://github.com/PyTorchLightning/pytorch-lightning/pull/3156))
+   * clean up hooks in `run_evaluation` ([#3156](https://github.com/PyTorchLightning/pytorch-lightning/pull/3156))
    * clean up data reset ([#3161](https://github.com/PyTorchLightning/pytorch-lightning/pull/3161))
    * expand eval loop out ([#3165](https://github.com/PyTorchLightning/pytorch-lightning/pull/3165))
+   * moved hooks around in eval loop ([#3195](https://github.com/PyTorchLightning/pytorch-lightning/pull/3195))
+   * remove `_evaluate` fx ([#3197](https://github.com/PyTorchLightning/pytorch-lightning/pull/3197))
+   * `Trainer.fit` hook clean up ([#3198](https://github.com/PyTorchLightning/pytorch-lightning/pull/3198))
+   * DDPs train hooks ([#3203](https://github.com/PyTorchLightning/pytorch-lightning/pull/3203))
+   * refactor DDP backend ([#3204](https://github.com/PyTorchLightning/pytorch-lightning/pull/3204), [#3207](https://github.com/PyTorchLightning/pytorch-lightning/pull/3207), [#3208](https://github.com/PyTorchLightning/pytorch-lightning/pull/3208), [#3209](https://github.com/PyTorchLightning/pytorch-lightning/pull/3209), [#3210](https://github.com/PyTorchLightning/pytorch-lightning/pull/3210))
+   * reduced accelerator selection ([#3211](https://github.com/PyTorchLightning/pytorch-lightning/pull/3211))
+   * group prepare data hook ([#3212](https://github.com/PyTorchLightning/pytorch-lightning/pull/3212))
 
 
 ### Deprecated
@@ -43,6 +50,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - Fixed `num_sanity_val_steps` is clipped to `limit_val_batches` ([#2917](https://github.com/PyTorchLightning/pytorch-lightning/pull/2917))
+
+- Fixed auto-scale batch size ([#3151](https://github.com/PyTorchLightning/pytorch-lightning/pull/3151))
+
+- Fixed example implementation of AutoEncoder ([#3190](https://github.com/PyTorchLightning/pytorch-lightning/pull/3190))
 
 
 ## [0.9.0] - YYYY-MM-DD
