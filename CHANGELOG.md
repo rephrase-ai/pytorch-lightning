@@ -61,6 +61,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Fixed example implementation of AutoEncoder ([#3190](https://github.com/PyTorchLightning/pytorch-lightning/pull/3190))
 
+- Fixed remote Logging with Tensorboard ([#3236](https://github.com/PyTorchLightning/pytorch-lightning/pull/3236))
+
 
 ## [0.9.0] - YYYY-MM-DD
 
