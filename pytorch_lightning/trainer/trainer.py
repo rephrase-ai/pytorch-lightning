@@ -404,6 +404,7 @@ class Trainer(
         self.should_stop = False
         self.running_sanity_check = False
         self._state = TrainerState.INITIALIZING
+        self.param_grad_dict = {}
 
         self._default_root_dir = default_root_dir or os.getcwd()
         self._weights_save_path = weights_save_path or self._default_root_dir

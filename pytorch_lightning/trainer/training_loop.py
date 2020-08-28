@@ -351,6 +351,11 @@ class TrainerTrainLoopMixin(ABC):
         # enable gradients
         torch.set_grad_enabled(True)
 
+        # Save current requires_grad values for all parameters and set them to false
+        for p in model.parameters():
+            self.param_grad_dict[p] = p.requires_grad
+            p.requires_grad = False
+
         # load data
         # if reload_dataloaders_every_epoch, this is moved to the epoch loop
         if not self.reload_dataloaders_every_epoch:
@@ -819,12 +824,9 @@ class TrainerTrainLoopMixin(ABC):
             for opt_idx, optimizer in self._get_optimizers_iterable():
                 # make sure only the gradients of the current optimizer's parameters are calculated
                 # in the training step to prevent dangling gradients in multiple-optimizer setup.
-                if len(self.optimizers) > 1:
-                    for param in self.get_model().parameters():
-                        param.requires_grad = False
-                    for group in optimizer.param_groups:
-                        for param in group['params']:
-                            param.requires_grad = True
+                for group in optimizer.param_groups:
+                    for param in group['params']:
+                        param.requires_grad = self.param_grad_dict[param]
 
                 # -------------------
                 # calculate loss (train step + train step end)
@@ -887,6 +889,10 @@ class TrainerTrainLoopMixin(ABC):
 
                     # reset for next set of accumulated grads
                     self.batch_loss_value.reset()
+
+                for group in optimizer.param_groups:
+                    for param in group['params']:
+                        param.requires_grad = False
 
         # Batch end events
         with self.profiler.profile('on_batch_end'):
