@@ -872,7 +872,8 @@ class TrainerTrainLoopMixin(ABC):
                 self.batch_loss_value.append(opt_closure_result.loss)
 
                 # track all the outputs across all steps
-                batch_outputs[opt_idx].append(opt_closure_result.training_step_output_for_epoch_end)
+                _batch_output_idx = 0 if len(batch_outputs) == 1 else opt_idx
+                batch_outputs[_batch_output_idx].append(opt_closure_result.training_step_output_for_epoch_end)
 
                 # ------------------------------
                 # BACKWARD PASS
