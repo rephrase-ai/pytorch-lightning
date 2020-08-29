@@ -516,12 +516,12 @@ class TrainerTrainLoopMixin(ABC):
             # -----------------------------------------
             # SAVE LOGGERS (ie: Tensorboard, etc...)
             # -----------------------------------------
-            self.save_loggers_in_training_loop(batch_idx)
+            self.save_loggers_in_training_loop(self.total_batch_idx)
 
             # -----------------------------------------
             # SAVE METRICS TO LOGGERS
             # -----------------------------------------
-            self.save_train_loop_metrics_to_loggers(batch_idx, batch_output)
+            self.save_train_loop_metrics_to_loggers(self.total_batch_idx, batch_output)
 
             # update LR schedulers
             monitor_metrics = deepcopy(self.callback_metrics)
@@ -932,7 +932,7 @@ class TrainerTrainLoopMixin(ABC):
         # ------------------
         # track gradient norms when requested
         grad_norm_dic = {}
-        if batch_idx % self.row_log_interval == 0:
+        if self.total_batch_idx % self.row_log_interval == 0:
             if float(self.track_grad_norm) > 0:
                 model = self.get_model()
                 grad_norm_dic = model.grad_norm(
