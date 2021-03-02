@@ -18,6 +18,7 @@ import sys
 from time import sleep
 from typing import Any, Dict, List, Optional, Union
 
+import __main__
 import numpy as np
 import torch
 import torch.distributed as torch_distrib
@@ -122,19 +123,22 @@ class DDPPlugin(ParallelPlugin):
         os.environ["NODE_RANK"] = str(self.cluster_environment.node_rank())
         os.environ["LOCAL_RANK"] = str(self.cluster_environment.local_rank())
 
-        # when user is using hydra find the absolute path
-        path_lib = os.path.abspath if not _HYDRA_AVAILABLE else to_absolute_path
+        if __main__.__loader__.name == "__main__":
+            # when user is using hydra find the absolute path
+            path_lib = os.path.abspath if not _HYDRA_AVAILABLE else to_absolute_path
 
-        # pull out the commands used to run the script and resolve the abs file path
-        command = sys.argv
-        try:
-            full_path = path_lib(command[0])
-        except Exception:
-            full_path = os.path.abspath(command[0])
+            # pull out the commands used to run the script and resolve the abs file path
+            command = sys.argv
+            try:
+                full_path = path_lib(command[0])
+            except Exception:
+                full_path = os.path.abspath(command[0])
 
-        command[0] = full_path
-        # use the same python interpreter and actually running
-        command = [sys.executable] + command
+            command[0] = full_path
+            # use the same python interpreter and actually running
+            command = [sys.executable] + command
+        else:
+            command = [sys.executable, "-m", __main__.__loader__.name] + sys.argv[1:]
 
         # the visible devices tell us how many GPUs we want to use.
         # when the trainer script was called the device has already been scoped by the time
